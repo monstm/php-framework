@@ -1,0 +1,20 @@
+{
+    "name": "phenobytes/php-framework",
+    "description": "phenobytes php framework",
+    "type": "library",
+    "require": {
+        "slim/slim": "^4.4",
+        "slim/psr7": "^1.0",
+        "slim/twig-view": "^3.0",
+        "akrabat/ip-address-middleware": "^1.0",
+        "tuupola/cors-middleware": "^1.1"
+    },
+    "license": "Apache",
+    "authors": [
+        {
+            "name": "samy",
+            "email": "monstm@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
