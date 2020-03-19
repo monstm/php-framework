@@ -9,7 +9,7 @@
         "akrabat/ip-address-middleware": "^1.0",
         "tuupola/cors-middleware": "^1.1"
     },
-    "license": "Apache",
+    "license": "proprietary",
     "authors": [
         {
             "name": "samy",
