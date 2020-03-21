@@ -3,11 +3,11 @@
     "description": "phenobytes php framework",
     "type": "library",
     "require": {
+        "psr/http-factory": "^1.0",
+        "psr/http-server-middleware": "^1.0",
         "slim/slim": "^4.4",
         "slim/psr7": "^1.0",
-        "slim/twig-view": "^3.0",
-        "akrabat/ip-address-middleware": "^1.0",
-        "tuupola/cors-middleware": "^1.1"
+        "twig/twig": "^3.0"
     },
     "license": "proprietary",
     "authors": [
@@ -16,5 +16,10 @@
             "email": "monstm@gmail.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Phenobytes\\": "Phenobytes"
+        }
+    }
 }
