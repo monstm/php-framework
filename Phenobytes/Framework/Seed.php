@@ -6,10 +6,6 @@
 
 		public function __destruct(){}
 
-		//~ public function __get($Property){
-			//~ var_dump($Property);
-		//~ }
-
 		protected function config($ConfigName){
 			return \Phenobytes\Framework\Property::GetConfig($ConfigName);
 		}

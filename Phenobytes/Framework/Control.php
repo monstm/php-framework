@@ -19,14 +19,5 @@
 		public function GetRoute(){
 			return $this->Route;
 		}
-
-		public function http(
-			\Psr\Http\Message\ResponseInterface $Response,
-			$Content = "",
-			$Status = 200
-		){
-			$Response->getBody()->write($Content);
-			return $Response->withStatus((is_integer($Status) ? $Status : 200));
-		}
 	}
 ?>

@@ -2,6 +2,12 @@
 	namespace Phenobytes\Framework;
 
 	class Wizard{
+		public function __construct(){
+			if(session_status() == PHP_SESSION_NONE){
+				session_start();
+			}
+		}
+
 		protected static function PathSeparator($Path){
 			$ret = $Path;
 
