@@ -57,7 +57,7 @@
 				if(is_subclass_of($class, "\Phenobytes\Framework\Control")){
 					$instance = new $class();
 
-					foreach($instance->GetRoute() as $route => $map){
+					foreach($instance->__getroute() as $route => $map){
 						$options = false;
 						foreach(array("get", "post", "put", "delete") as $method){ // "get", "post", "put", "delete", "options", "patch", "any"
 							if(isset($map[$method]) && is_string($map[$method]) && is_string($map[$method])){
@@ -80,7 +80,7 @@
 								\Psr\Http\Message\ResponseInterface $Response,
 								array $Arguments
 							){
-								return $Response->withStatus(HTTP_RESPONSE_OK);
+								return $Response->withStatus(200);
 							});
 						}
 					}

@@ -12,11 +12,11 @@
 			parent::__destruct();
 		}
 
-		protected function SetRoute($Data){
+		protected function route($Data){
 			$this->Route = (is_array($Data) ? $Data : array());
 		}
 
-		public function GetRoute(){
+		public function __getroute(){
 			return $this->Route;
 		}
 	}

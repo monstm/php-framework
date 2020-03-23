@@ -6,6 +6,10 @@
 
 		public function __destruct(){}
 
+		public function DataKey($Data, $Key, $Default = null){
+			return (is_array($Data) && isset($Data[$Key]) ? $Data[$Key] : $Default);
+		}
+
 		protected function config($ConfigName){
 			return \Phenobytes\Framework\Property::GetConfig($ConfigName);
 		}
@@ -49,13 +53,17 @@
 			return $ret;
 		}
 
+		protected function log($Message){
+			error_log($Message);
+		}
+
 		protected function trace($Message){
 			try{
 				$backtrace = array_slice(debug_backtrace(), 1);
-				error_log($Message . (count($backtrace) > 0 ? " " . json_encode($backtrace) : ""));
+				$this->log($Message . (count($backtrace) > 0 ? " " . json_encode($backtrace) : ""));
 			}catch(Exception $error){
-				error_log($error->getMessage() . " " . json_encode($error));
-				error_log($Message);
+				$this->log($error->getMessage() . " " . json_encode($error));
+				$this->log($Message);
 			}
 		}
 	}
