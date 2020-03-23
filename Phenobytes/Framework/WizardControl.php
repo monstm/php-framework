@@ -11,8 +11,8 @@
 					"error" => array(
 						"display" => false,
 						"callback" => function(
-							Psr\Http\Message\ServerRequestInterface $Request,
-							Psr\Http\Message\ResponseInterface $Response,
+							\Psr\Http\Message\ServerRequestInterface $Request,
+							\Psr\Http\Message\ResponseInterface $Response,
 							\Throwable $Exception,
 							bool $Display
 						){

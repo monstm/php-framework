@@ -80,7 +80,11 @@
 
 		public static function Setup($Data = array()){
 			self::Normalize($Data);
-			self::SetLoader($Data["view"]["path"], "", $Data["view"]["recursive"], $Data["view"]["extension"]);
+
+			if($Data["view"]["path"] != $Data["root"]){
+				self::SetLoader($Data["view"]["path"], "", $Data["view"]["recursive"], $Data["view"]["extension"]);
+			}
+
 			self::SetEnvironment($Data["view"]["environment"]);
 
 			return $Data;
