@@ -53,37 +53,49 @@
 		}
 
 		private static function AddControl(&$Wizard){
+			$cache = array();
+
 			foreach(get_declared_classes() as $class){
 				if(is_subclass_of($class, "\Phenobytes\Framework\Control")){
 					$instance = new $class();
 
 					foreach($instance->__getroute() as $route => $map){
-						$options = false;
-						foreach(array("get", "post", "put", "delete") as $method){ // "get", "post", "put", "delete", "options", "patch", "any"
-							if(isset($map[$method]) && is_string($map[$method]) && is_string($map[$method])){
-								$Wizard->$method($route, $class . ":" . $map[$method]);
-								$options = true;
-							//~ }else{
-								//~ $app->$method($route, function(
-									//~ Psr\Http\Message\ServerRequestInterface $Request,
-									//~ Psr\Http\Message\ResponseInterface $Response,
-									//~ array $Arguments
-								//~ ){
-									//~ return $Response->withStatus(405);
-								//~ });
+						if(is_string($route) && is_array($map)){
+							if(!isset($cache[$route])){ $cache[$route] = array(); }
+
+							foreach($map as $method => $callback){
+								if(is_string($method) && is_string($callback)){
+									$method = strtolower(trim($method));
+
+									if(in_array($method, array("get", "post", "put", "delete", "options", "patch", "any"))){
+										if(method_exists($instance, $callback)){
+											if(!isset($cache[$route][$method])){
+												$cache[$route][$method] = $callback;
+												$Wizard->$method($route, $class . ":" . $callback);
+											}else{
+												error_log("Duplicate route control " . $class . ":" . $method . "@" . $route);
+											}
+										}else{
+											error_log("Route method is not exists " . $class . ":" . $callback);
+
+										}
+									}
+								}
 							}
 						}
-
-						if($options){
-							$Wizard->options($route, function(
-								\Psr\Http\Message\ServerRequestInterface $Request,
-								\Psr\Http\Message\ResponseInterface $Response,
-								array $Arguments
-							){
-								return $Response->withStatus(200);
-							});
-						}
 					}
+				}
+			}
+
+			foreach($cache as $route => $map){
+				if(!isset($map["options"])){
+					$Wizard->options($route, function(
+						\Psr\Http\Message\ServerRequestInterface $Request,
+						\Psr\Http\Message\ResponseInterface $Response,
+						array $Arguments
+					){
+						return $Response->withStatus(200);
+					});
 				}
 			}
 		}

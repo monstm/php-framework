@@ -48,6 +48,7 @@
 				$ret = $twig_environment->render($ViewName, (is_array($Data) ? $Data : array()));
 			}else{
 				$ret = "";
+				$this->trace("View " . $ViewName . " is not exists");
 			}
 
 			return $ret;

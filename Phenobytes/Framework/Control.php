@@ -12,6 +12,25 @@
 			parent::__destruct();
 		}
 
+		public function redirect($Response, $URL, $Permanent = false){
+			$Response->getBody()->write(
+				"<!DOCTYPE html>" .
+				"<html>" .
+					"<head>" .
+						"<meta http-equiv=\"refresh\" content=\"0; url=" . $URL . "\" />" .
+						"<meta name=\"author\" content=\"Samy, samy@phenobytes.com\" />" .
+						"<meta name=\"description\" content=\"Redirect\" />" .
+						"<meta name=\"generator\" content=\"Phenobytes PHP Framework\" />" .
+					"</head>" .
+					"<body>Redirect to <a href=\"" . $URL . "\">" . $URL . "</a></body>" .
+				"</html>"
+			);
+
+			return $Response
+				->withStatus(($Permanent ? 301 : 302))
+				->withHeader("Location", $URL);
+		}
+
 		protected function route($Data){
 			$this->Route = (is_array($Data) ? $Data : array());
 		}
