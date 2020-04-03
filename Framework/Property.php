@@ -13,7 +13,7 @@
 			if(is_array($Data)){
 				self::$Setup = $Data;
 			}else{
-				$this->trace("invalid setup data type: " . gettype($Data));
+				self::trace("invalid setup data type: " . gettype($Data));
 			}
 		}
 
@@ -22,7 +22,7 @@
 				$ret = self::$Setup[$Key];
 			}else{
 				$ret = null;
-				$this->trace("setup key " . $Key . " is not exists");
+				self::trace("setup key " . $Key . " is not exists");
 			}
 
 			return $ret;
@@ -37,7 +37,7 @@
 			if(is_string($Key)){
 				self::$Config[$Key] = $Value;
 			}else{
-				$this->trace("invalid config key type: " . gettype($Data));
+				self::trace("invalid config key type: " . gettype($Data));
 			}
 		}
 
@@ -46,7 +46,7 @@
 				$ret = self::$Config[$Key];
 			}else{
 				$ret = null;
-				$this->trace("config key " . $Key . " is not exists");
+				self::trace("config key " . $Key . " is not exists");
 			}
 
 			return $ret;
@@ -61,7 +61,7 @@
 			if(is_string($Key) && is_string($Value)){
 				self::$ViewLoader[$Key] = $Value;
 			}else{
-				$this->trace("invalid view loader key/value type: " . gettype($Key) . "/" . gettype($Value));
+				self::trace("invalid view loader key/value type: " . gettype($Key) . "/" . gettype($Value));
 			}
 		}
 
@@ -73,12 +73,26 @@
 			if(is_array($Data)){
 				self::$ViewEnvironment = $Data;
 			}else{
-				$this->trace("invalid view loader data type: " . gettype($Data));
+				self::trace("invalid view loader data type: " . gettype($Data));
 			}
 		}
 
 		public static function GetViewEnvironment(){
 			return self::$ViewEnvironment;
+		}
+
+		protected static function log($Message){
+			error_log($Message);
+		}
+
+		protected static function trace($Message){
+			try{
+				$backtrace = array_slice(debug_backtrace(), 1);
+				self::log($Message . (count($backtrace) > 0 ? " " . json_encode($backtrace) : ""));
+			}catch(Exception $error){
+				self::log($error->getMessage() . " " . json_encode($error));
+				self::log($Message);
+			}
 		}
 	}
 ?>

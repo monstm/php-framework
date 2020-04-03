@@ -10,11 +10,15 @@
 			return (is_array($Data) && isset($Data[$Key]) ? $Data[$Key] : $Default);
 		}
 
+		protected function setup($SetupName){
+			return \Phenobytes\Framework\Property::GetSetup($SetupName);
+		}
+
 		protected function config($ConfigName){
 			return \Phenobytes\Framework\Property::GetConfig($ConfigName);
 		}
 
-		private function fork($ClassName, $Inheritance, $ErrorMessage){
+		private function fork($ClassName, $Arguments, $Inheritance, $ErrorMessage){
 			if(is_subclass_of($ClassName, $Inheritance)){
 				$class = $ClassName;
 			}else{
@@ -22,19 +26,23 @@
 				$this->trace($ErrorMessage);
 			}
 
-			return (new $class());
+			//~ return (new $class());
+			$reflection = new \ReflectionClass($class);
+			return $reflection->newInstanceArgs($Arguments);
 		}
 
 		protected function control($ClassName){
 			return $this->fork(
-				$ClassName, "\Phenobytes\Framework\Control",
+				$ClassName, array(),
+				"\Phenobytes\Framework\Control",
 				"invalid inheritance for control '" . $ClassName . "'"
 			);
 		}
 
-		protected function model($ClassName){
+		protected function model($ClassName, $Arguments = array()){
 			return $this->fork(
-				$ClassName, "\Phenobytes\Framework\Model",
+				$ClassName, $Arguments,
+				"\Phenobytes\Framework\Model",
 				"invalid inheritance for model '" . $ClassName . "'"
 			);
 		}
