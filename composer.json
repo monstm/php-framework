@@ -19,7 +19,8 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Phenobytes\\": "Phenobytes"
+            "Phenobytes\\Framework\\": "Framework/",
+            "Phenobytes\\PSR\\": "PSR/"
         }
     }
 }
