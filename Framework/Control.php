@@ -12,8 +12,26 @@
 			parent::__destruct();
 		}
 
+		public function content($Response, $Body, $Status = 200, $Header = array()){
+			$Response->getBody()->write($Body);
+
+			if(is_array($Header)){
+				foreach($Header as $key => $value){
+					if(is_string($key) && is_string($value)){
+						$Response = $Response->withHeader($key, $value);
+					}
+				}
+			}
+
+			return $Response->withStatus((is_int($Status) ? $Status : 200));
+		}
+
+		public function template($Response, $ViewName, $ViewData = array(), $Status = 200, $Header = array()){
+			return $this->content($Response, $this->view($ViewName, $ViewData), $Status, $Header);
+		}
+
 		public function redirect($Response, $URL, $Permanent = false){
-			$Response->getBody()->write(
+			return $this->content($Response,
 				"<!DOCTYPE html>" .
 				"<html>" .
 					"<head>" .
@@ -23,12 +41,10 @@
 						"<meta name=\"generator\" content=\"Phenobytes PHP Framework\" />" .
 					"</head>" .
 					"<body>Redirect to <a href=\"" . $URL . "\">" . $URL . "</a></body>" .
-				"</html>"
+				"</html>",
+				($Permanent ? 301 : 302),
+				array("Location" => $URL)
 			);
-
-			return $Response
-				->withStatus(($Permanent ? 301 : 302))
-				->withHeader("Location", $URL);
 		}
 
 		protected function route($Data){
